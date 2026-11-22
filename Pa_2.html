@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Club Members</title>
+    <link rel="stylesheet" href="https://pyscript.net/releases/2026.7.3/core.css" />
+    <script type="module" src="https://pyscript.net/releases/2026.7.3/core.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: 'Trebuchet MS', 'Segoe UI', sans-serif;
+            background: linear-gradient(180deg, #ffe2cc 0%, #fff3ea 68%, #cde6c8 68%, #b6d9b0 100%);
+            color: #36261d;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 24px 16px 48px;
+        }
+
+        /* Top navigation bar */
+        nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 34px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #36261d;
+            background-color: #fffdf8;
+            border: 2px solid #36261d;
+            border-radius: 10px;
+            padding: 8px 16px;
+            font-size: 0.92rem;
+            font-weight: 700;
+            box-shadow: 3px 3px 0px #36261d;
+            transition: transform 0.12s ease, background-color 0.12s ease;
+        }
+
+        nav a:hover {
+            transform: translate(-1px, -1px);
+            background-color: #ffe9d8;
+        }
+
+        nav a.active {
+            background-color: #ffbe8f;
+            color: #291c14;
+        }
+
+        /* Main retro window container */
+        .showcase-window {
+            width: 100%;
+            max-width: 780px;
+            background-color: #fffdf8;
+            border: 2.5px solid #36261d;
+            border-radius: 14px;
+            box-shadow: 7px 7px 0px #36261d;
+            overflow: hidden;
+        }
+
+        .window-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 16px;
+            background-color: #ffd5b5;
+            border-bottom: 2px solid #36261d;
+        }
+
+        .dots {
+            display: flex;
+            gap: 7px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 1.8px solid #36261d;
+        }
+
+        .dot.peach { background-color: #ffbe8f; }
+        .dot.sun { background-color: #ffe48f; }
+        .dot.leaf { background-color: #bce0b6; }
+
+        .pill {
+            background-color: #e4f5e1;
+            color: #224d1b;
+            border: 1.5px solid #36261d;
+            border-radius: 999px;
+            padding: 3px 12px;
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+
+        .window-content {
+            padding: 24px;
+        }
+
+        h2 {
+            margin: 0 0 18px;
+            font-size: 1.65rem;
+            color: #2b1d15;
+        }
+
+        /* Two-column layout */
+        .split-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 20px;
+            align-items: start;
+        }
+
+        .form-box {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 18px;
+            background-color: #fff8f2;
+            border: 2px solid #36261d;
+            border-radius: 12px;
+        }
+
+        .field-label {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #36261d;
+            margin-bottom: -6px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 11px 13px;
+            font-size: 0.96rem;
+            font-family: inherit;
+            color: #2b1d15;
+            background-color: #ffffff;
+            border: 2px solid #36261d;
+            border-radius: 10px;
+            outline: none;
+        }
+
+        input[type="text"]:focus {
+            box-shadow: 0 0 0 3px rgba(255, 190, 143, 0.55);
+        }
+
+        button {
+            width: 100%;
+            margin-top: 4px;
+            padding: 12px 16px;
+            font-size: 0.98rem;
+            font-weight: 700;
+            font-family: inherit;
+            color: #291c14;
+            background-color: #ffbe8f;
+            border: 2px solid #36261d;
+            border-radius: 10px;
+            box-shadow: 3px 3px 0px #36261d;
+            cursor: pointer;
+            transition: transform 0.12s ease, background-color 0.12s ease;
+        }
+
+        button:hover {
+            background-color: #ffad73;
+            transform: translate(-1px, -1px);
+        }
+
+        button:active {
+            transform: translate(2px, 2px);
+            box-shadow: 1px 1px 0px #36261d;
+        }
+
+        /* Output box */
+        .output-panel {
+            padding: 18px;
+            background-color: #fffaf5;
+            border: 2px solid #36261d;
+            border-radius: 12px;
+            box-shadow: 4px 4px 0px #36261d;
+            min-height: 210px;
+        }
+
+        .output-title {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            color: #7c5c49;
+            margin-bottom: 10px;
+        }
+
+        #output {
+            font-size: 0.96rem;
+            line-height: 1.5;
+            color: #2b1d15;
+        }
+
+        @media (max-width: 680px) {
+            .split-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html">Homepage</a>
+        <a href="skills_test.html">Element Checker</a>
+        <a href="Pa_2.html" class="active">School Club Members</a>
+        <a href="Meetda_creator.html">Meet the Creator</a>
+    </nav>
+
+    <div class="showcase-window">
+        <div class="window-bar">
+            <div class="dots">
+                <span class="dot peach"></span>
+                <span class="dot sun"></span>
+                <span class="dot leaf"></span>
+            </div>
+            <span class="pill">Club Directory</span>
+        </div>
+
+        <div class="window-content">
+            <h2>Student Member Directory</h2>
+
+            <div class="split-grid">
+                <div class="form-box">
+                    <label for="first_name" class="field-label">First Name</label>
+                    <input type="text" id="first_name" placeholder="First Name">
+
+                    <label for="last_name" class="field-label">Last Name</label>
+                    <input type="text" id="last_name" placeholder="Last Name">
+
+                    <button py-click="main">Add to Master Set</button>
+                </div>
+
+                <div class="output-panel">
+                    <span class="output-title">Directory Output</span>
+                    <div id="output"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="py" src="main3.py"></script>
+</body>
+</html>

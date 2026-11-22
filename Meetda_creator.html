@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://pyscript.net/releases/2026.7.3/core.css" />
+    <script type="module" src="https://pyscript.net/releases/2026.7.3/core.js"></script>
+    <title>Meet the creator</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: 'Trebuchet MS', 'Segoe UI', sans-serif;
+            background: linear-gradient(180deg, #fce1e8 0%, #fff6e5 68%, #d7ecc8 68%, #c1e0ad 100%);
+            color: #35242b;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 24px 16px 52px;
+        }
+
+        /* Top navigation bar */
+        nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 34px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #35242b;
+            background-color: #fffdf9;
+            border: 2px solid #35242b;
+            border-radius: 10px;
+            padding: 8px 16px;
+            font-size: 0.92rem;
+            font-weight: 700;
+            box-shadow: 3px 3px 0px #35242b;
+            transition: transform 0.12s ease, background-color 0.12s ease;
+        }
+
+        nav a:hover {
+            transform: translate(-1px, -1px);
+            background-color: #ffeaf0;
+        }
+
+        nav a.active {
+            background-color: #f9b8cb;
+            color: #26181e;
+        }
+
+        /* Cute retro window container */
+        .creator-card {
+            width: 100%;
+            max-width: 650px;
+            background-color: #fffdf9;
+            border: 2.5px solid #35242b;
+            border-radius: 14px;
+            box-shadow: 7px 7px 0px #35242b;
+            overflow: hidden;
+        }
+
+        .window-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 16px;
+            background-color: #ffe3c2;
+            border-bottom: 2px solid #35242b;
+        }
+
+        .dots {
+            display: flex;
+            gap: 7px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 1.8px solid #35242b;
+        }
+
+        .dot.rose { background-color: #f9b8cb; }
+        .dot.honey { background-color: #ffe08a; }
+        .dot.sprout { background-color: #c2e5ad; }
+
+        .creator-badge {
+            background-color: #fce8ef;
+            color: #5c273b;
+            border: 1.5px solid #35242b;
+            border-radius: 999px;
+            padding: 3px 12px;
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+
+        .card-inner {
+            padding: 26px 28px;
+        }
+
+        /* Compact cute header */
+        .top-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            padding-bottom: 16px;
+            margin-bottom: 20px;
+            border-bottom: 2px dashed #e2c2cd;
+        }
+
+        .kicker {
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 1.4px;
+            text-transform: uppercase;
+            color: #c95d7e;
+            margin-bottom: 4px;
+        }
+
+        .page-title {
+            margin: 0;
+            font-size: 1.65rem;
+            font-weight: 800;
+            color: #26181e;
+        }
+
+        .avatar-seal {
+            width: 50px;
+            height: 50px;
+            flex-shrink: 0;
+            border-radius: 50%;
+            background-color: #f9b8cb;
+            border: 2px solid #35242b;
+            box-shadow: 3px 3px 0px #35242b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #26181e;
+        }
+
+        /* Stacked profile sections */
+        #output {
+            color: #2b1b22;
+        }
+
+        #output > div {
+            margin-bottom: 14px;
+        }
+
+        /* Big, bold, noticeable section headers (About me, Interests, Hobbies, Dreams) */
+        #output > div:nth-child(4) p,
+        #output > div:nth-child(6) p,
+        #output > div:nth-child(8) p,
+        #output > div:nth-child(10) p {
+            display: inline-block;
+            font-size: 1.05rem;
+            font-weight: 800;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            color: #26181e;
+            background-color: #ffd6e3;
+            border: 2px solid #35242b;
+            border-radius: 8px;
+            padding: 4px 12px;
+            box-shadow: 2.5px 2.5px 0px #35242b;
+            margin: 8px 0 6px;
+        }
+
+        /* Alternate soft accents for extra pop */
+        #output > div:nth-child(6) p {
+            background-color: #ffe5a3;
+        }
+
+        #output > div:nth-child(8) p {
+            background-color: #d4f0c4;
+        }
+
+        #output > div:nth-child(10) p {
+            background-color: #e6d8ff;
+        }
+
+        /* "Meet Me" top label */
+        #output > div:nth-child(1) p {
+            font-size: 0.85rem;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #c95d7e;
+            margin: 0 0 2px;
+        }
+
+        /* Creator Name */
+        #output > div:nth-child(2) p {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #26181e;
+            margin: 0 0 2px;
+        }
+
+        /* Tagline & item lines */
+        #output > div p {
+            margin: 0;
+            font-size: 1.04rem;
+            line-height: 1.55;
+            color: #35242b;
+            font-weight: 600;
+        }
+
+        /* Quote card at the bottom */
+        #output > div:last-child {
+            margin-top: 22px;
+            margin-bottom: 0;
+            padding: 15px 18px;
+            background-color: #fff6e8;
+            border: 2px solid #35242b;
+            border-left: 7px solid #e87a9b;
+            border-radius: 10px;
+            box-shadow: 3px 3px 0px #35242b;
+            font-style: italic;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html">Homepage</a>
+        <a href="skills_test.html">Element Checker</a>
+        <a href="Pa_2.html">School Club Members</a>
+        <a href="Meetda_creator.html" class="active">Meet the Creator</a>
+    </nav>
+
+    <div class="creator-card">
+        <div class="window-bar">
+            <div class="dots">
+                <span class="dot rose"></span>
+                <span class="dot honey"></span>
+                <span class="dot sprout"></span>
+            </div>
+            <span class="creator-badge">Creator Profile</span>
+        </div>
+
+        <div class="card-inner">
+            <div class="top-row">
+                <div>
+                    <div class="kicker">Creator Showcase</div>
+                    <h1 class="page-title">Meet the Creator</h1>
+                </div>
+                <div class="avatar-seal">ST</div>
+            </div>
+
+            <div id="output"></div>
+        </div>
+    </div>
+
+    <script type="py" src="main4.py"></script>
+</body>
+</html>
